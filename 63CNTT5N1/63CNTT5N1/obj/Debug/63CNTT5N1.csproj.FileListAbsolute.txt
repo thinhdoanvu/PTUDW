@@ -77,3 +77,10 @@ C:\Users\203H231\Documents\PTUDW\63CNTT5N1\63CNTT5N1\obj\Debug\63CNTT5N1.csproj.
 C:\Users\203H231\Documents\PTUDW\63CNTT5N1\63CNTT5N1\obj\Debug\63CNTT5N1.csproj.CopyComplete
 C:\Users\203H231\Documents\PTUDW\63CNTT5N1\63CNTT5N1\obj\Debug\63CNTT5N1.dll
 C:\Users\203H231\Documents\PTUDW\63CNTT5N1\63CNTT5N1\obj\Debug\63CNTT5N1.pdb
+C:\Users\203H231\Documents\PTUDW\63CNTT5N1\63CNTT5N1\bin\EntityFramework.dll
+C:\Users\203H231\Documents\PTUDW\63CNTT5N1\63CNTT5N1\bin\EntityFramework.SqlServer.dll
+C:\Users\203H231\Documents\PTUDW\63CNTT5N1\63CNTT5N1\bin\MyClass.dll
+C:\Users\203H231\Documents\PTUDW\63CNTT5N1\63CNTT5N1\bin\MyClass.pdb
+C:\Users\203H231\Documents\PTUDW\63CNTT5N1\63CNTT5N1\bin\MyClass.dll.config
+C:\Users\203H231\Documents\PTUDW\63CNTT5N1\63CNTT5N1\bin\EntityFramework.xml
+C:\Users\203H231\Documents\PTUDW\63CNTT5N1\63CNTT5N1\bin\EntityFramework.SqlServer.xml
