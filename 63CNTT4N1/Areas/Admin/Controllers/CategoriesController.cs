@@ -52,6 +52,15 @@ namespace _63CNTT4N1.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Xu ly cho muc CreateAt
+                categories.CreateAt = DateTime.Now;
+                //Xu ly cho muc UpdateAt
+                categories.UpdateAt = DateTime.Now;
+                //Xu ly cho muc CreateBy
+                categories.CreateBy = Convert.ToInt32(Session["UserId"]);
+                //Xu ly cho muc UpdateBy
+                categories.UpdateBy = Convert.ToInt32(Session["UserId"]);
+
                 categoriesDAO.Insert(categories);
                 return RedirectToAction("Index");
             }
