@@ -77,3 +77,10 @@ C:\Users\203H231\Documents\PTUDW\63CNTTX\63CNTTX\obj\Debug\63CNTTX.csproj.CoreCo
 C:\Users\203H231\Documents\PTUDW\63CNTTX\63CNTTX\obj\Debug\63CNTTX.csproj.CopyComplete
 C:\Users\203H231\Documents\PTUDW\63CNTTX\63CNTTX\obj\Debug\63CNTTX.dll
 C:\Users\203H231\Documents\PTUDW\63CNTTX\63CNTTX\obj\Debug\63CNTTX.pdb
+C:\Users\203H231\Documents\PTUDW\63CNTTX\63CNTTX\bin\EntityFramework.dll
+C:\Users\203H231\Documents\PTUDW\63CNTTX\63CNTTX\bin\EntityFramework.SqlServer.dll
+C:\Users\203H231\Documents\PTUDW\63CNTTX\63CNTTX\bin\MyClass.dll
+C:\Users\203H231\Documents\PTUDW\63CNTTX\63CNTTX\bin\MyClass.pdb
+C:\Users\203H231\Documents\PTUDW\63CNTTX\63CNTTX\bin\MyClass.dll.config
+C:\Users\203H231\Documents\PTUDW\63CNTTX\63CNTTX\bin\EntityFramework.xml
+C:\Users\203H231\Documents\PTUDW\63CNTTX\63CNTTX\bin\EntityFramework.SqlServer.xml
