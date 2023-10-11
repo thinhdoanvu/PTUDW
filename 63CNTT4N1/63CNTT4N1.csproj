@@ -127,7 +127,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\CategoriesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Global.asax.cs">
@@ -2650,11 +2650,11 @@
     <Content Include="Public\plugins\summernote\summernote.js.map" />
     <Content Include="Public\plugins\summernote\summernote.min.js.map" />
     <Content Include="Public\plugins\toastr\toastr.js.map" />
-    <Content Include="Areas\Admin\Views\Categories\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Categories\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Categories\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Categories\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Categories\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Category\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Category\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Category\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Category\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Category\Index.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
