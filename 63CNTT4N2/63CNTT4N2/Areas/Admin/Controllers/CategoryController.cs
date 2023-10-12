@@ -50,6 +50,20 @@ namespace _63CNTT4N2.Areas.Admin.Controllers
                 categories.UpdateBy = Convert.ToInt32(Session["UserID"]);
                 //Slug
                 categories.Slug = XString.Str_Slug(categories.Name);
+                //ParentId
+                if (categories.ParentId == null)
+                {
+                    categories.ParentId = 0;
+                }
+                //Order
+                if (categories.Order == null)
+                {
+                    categories.Order = 1;
+                }
+                else
+                {
+                    categories.Order += 1;
+                }
                 //Them moi dong du lieu
                 categoriesDAO.Insert(categories);
                 return RedirectToAction("Index");
