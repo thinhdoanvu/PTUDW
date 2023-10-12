@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using MyClass.Model;
 using MyClass.DAO;
+using UDW.Library;
 
 namespace _63CNTT4N2.Areas.Admin.Controllers
 {
@@ -21,6 +22,40 @@ namespace _63CNTT4N2.Areas.Admin.Controllers
         public ActionResult Index()
         {
             return View(categoriesDAO.getList("Index"));
+        }
+
+        /// //////////////////////////////////////////////////////////////////////////////////
+        // GET: Admin/Category/Create
+        public ActionResult Create()
+        {
+            ViewBag.CatList = new SelectList(categoriesDAO.getList("Index"),"Id","Name");
+            ViewBag.OrderList = new SelectList(categoriesDAO.getList("Index"), "Order", "Name");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Categories categories)
+        {
+            if (ModelState.IsValid)
+            {
+                //Xu ly mot so truong tu dong
+                //CreateAt
+                categories.CreateAt = DateTime.Now;
+                //UpdateAt
+                categories.UpdateAt = DateTime.Now;
+                //CreateBy
+                categories.CreateBy = Convert.ToInt32(Session["UserID"]);
+                //UpdateBy
+                categories.UpdateBy = Convert.ToInt32(Session["UserID"]);
+                //Slug
+                categories.Slug = XString.Str_Slug(categories.Name);
+                //Them moi dong du lieu
+                categoriesDAO.Insert(categories);
+                return RedirectToAction("Index");
+            }
+
+            return View(categories);
         }
 
         ///// //////////////////////////////////////////////////////////////////////////////////
@@ -39,26 +74,7 @@ namespace _63CNTT4N2.Areas.Admin.Controllers
         //    return View(categories);
         //}
 
-        ///// //////////////////////////////////////////////////////////////////////////////////
-        //// GET: Admin/Category/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Create([Bind(Include = "Id,Name,Slug,ParentId,Order,MetaDesc,MetaKey,CreateBy,CreateAt,UpdateBy,UpdateAt,Status")] Categories categories)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Categories.Add(categories);
-        //        await db.SaveChangesAsync();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    return View(categories);
-        //}
 
         ///// //////////////////////////////////////////////////////////////////////////////////
         ///// Update

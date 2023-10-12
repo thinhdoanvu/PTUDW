@@ -16,7 +16,7 @@ namespace MyClass.DAO
         {
             return db.Categories.ToList();
         }
-
+        //INDEX -  tra ve cac gia tri co status =1,2, status =0 <=> thung rac
         public List<Categories> getList(string status = "All")//Status 1,2: hien thi; 0 an di
         {
             List<Categories> list = null;
@@ -39,6 +39,13 @@ namespace MyClass.DAO
                     }
             }
             return list;
+        }
+
+        //CREATE
+        public int Insert(Categories row)
+        {
+            db.Categories.Add(row);
+            return db.SaveChanges();
         }
 
     }
