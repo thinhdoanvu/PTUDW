@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MyClass.Model;
 using MyClass.DAO;
+using _63CNTT4N1.Library;
 
 namespace _63CNTT4N1.Areas.Admin.Controllers
 {
@@ -57,10 +58,35 @@ namespace _63CNTT4N1.Areas.Admin.Controllers
                 categories.CreateAt = DateTime.Now;
                 //-----CreateBy
                 categories.CreateBy = Convert.ToInt32(Session["UserID"]);
+                //slug
+                categories.Slug = XString.Str_Slug(categories.Name);
+                //ParentID
+                if (categories.ParentId == null)
+                {
+                    categories.ParentId = 0;
+                }
+                //Order
+                if (categories.Order == null)
+                {
+                    categories.Order = 1;
+                }
+                else
+                {
+                    categories.Order += 1;
+                }
+                //UpdateAt
+                categories.UpdateAt = DateTime.Now;
+                //UpdateBy
+                categories.UpdateBy= Convert.ToInt32(Session["UserID"]);
 
                 categoriesDAO.Insert(categories);
+                //hien thi thong bao thanh cong
+                TempData["message"] = ("Tạo mới loại sản phẩm thành công");
+
                 return RedirectToAction("Index");
             }
+            ViewBag.CatList = new SelectList(categoriesDAO.getList("Index"), "Id", "Name");
+            ViewBag.OrderList = new SelectList(categoriesDAO.getList("Index"), "Order", "Name");
 
             return View(categories);
         }

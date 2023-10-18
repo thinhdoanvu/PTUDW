@@ -151,25 +151,29 @@ namespace _63CNTT5N1.Areas.Admin.Controllers
             if (id == null)
             {
                 //thong bao that bai
-                TempData["message"] = ("Cập nhật trạng thái thất bại");
+                TempData["message"] = new XMessage("danger", "Cập nhật trạng thái thất bại");
                 return RedirectToAction("Index");
             }
-            //truy van id
-            Categories categories = categoriesDAO.getRow(id);
+            else
+            {
+                //truy van id
+                Categories categories = categoriesDAO.getRow(id);
 
-            //chuyen doi trang thai cua Satus tu 1<->2
-            categories.Status = (categories.Status == 1) ? 2 : 1;
+                //chuyen doi trang thai cua Satus tu 1<->2
+                categories.Status = (categories.Status == 1) ? 2 : 1;
 
-            //cap nhat gia tri UpdateAt
-            categories.UpdateAt = DateTime.Now;
+                //cap nhat gia tri UpdateAt
+                categories.UpdateAt = DateTime.Now;
 
-            //cap nhat lai DB
-            categoriesDAO.Update(categories);
+                //cap nhat lai DB
+                categoriesDAO.Update(categories);
 
-            //thong bao cap nhat trang thai thanh cong
-            TempData["message"] = ("Cập nhật trạng thái thành công");
+                //thong bao cap nhat trang thai thanh cong
+                TempData["message"] = TempData["message"] = new XMessage("success", "Cập nhật trạng thái thành công");
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            
         }
     }
 }

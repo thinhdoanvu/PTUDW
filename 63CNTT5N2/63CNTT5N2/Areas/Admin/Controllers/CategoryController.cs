@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using _63CNTT5N2.Library;
 using MyClass.DAO;
 using MyClass.Model;
 
@@ -44,6 +45,8 @@ namespace _63CNTT5N2.Areas.Admin.Controllers
         // GET: Admin/Category/Create
         public ActionResult Create()
         {
+            ViewBag.ListCat = new SelectList(categoriesDAO.getList("Index"),"Id","Name");
+            ViewBag.ListOrder = new SelectList(categoriesDAO.getList("Index"), "Order", "Name");
             return View();
         }
 
@@ -53,9 +56,37 @@ namespace _63CNTT5N2.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Xu ly tu dong cho: CreateAt
+                categories.CreateAt = DateTime.Now;
+
+                //Xu ly tu dong cho: UpdateAt
+                categories.UpdateAt = DateTime.Now;
+
+                //Xu ly tu dong cho: ParentId
+                if (categories.ParentID == null)
+                {
+                    categories.ParentID = 0;
+                }
+
+                //Xu ly tu dong cho: Order
+                if (categories.Order == null)
+                {
+                    categories.Order = 1;
+                }
+                else
+                {
+                    categories.Order += 1;
+                }
+
+                //Xu ly tu dong cho: Slug
+                categories.Slug = XString.Str_Slug(categories.Name);
+
+                //them dong du lieu cho DB
                 categoriesDAO.Insert(categories);
                 return RedirectToAction("Index");
             }
+            ViewBag.ListCat = new SelectList(categoriesDAO.getList("Index"), "Id", "Name");
+            ViewBag.ListOrder = new SelectList(categoriesDAO.getList("Index"), "Order", "Name");
             return View(categories);
         }
 
@@ -113,6 +144,38 @@ namespace _63CNTT5N2.Areas.Admin.Controllers
         {
             Categories categories = categoriesDAO.getRow(id);
             categoriesDAO.Delete(categories);
+            return RedirectToAction("Index");
+        }
+
+        ///////////////////////////////////////////////////////////////////
+        /// STATUS
+        // GET: Admin/Category/Status/5
+        public ActionResult Status(int? id)
+        {
+            if (id==null)
+            {
+                //thong bao that bai
+                TempData["message"] = new XMessage("danger","Cập nhật trạng thái thất bại");
+                return RedirectToAction("Index");
+            }
+
+            //tim row co id == id cua loai SP can thay doi Status
+            Categories categories = categoriesDAO.getRow(id);
+            if (categories==null)
+            {
+                //thong bao that bai
+                TempData["message"] = new XMessage("danger","Cập nhật trạng thái thất bại");
+                return RedirectToAction("Index");
+            }
+            //kiem tra trang thai cua status, neu hien tai la 1 ->2 va nguoc lai
+            categories.Status = (categories.Status == 1) ? 2 : 1;
+            //cap nhat gia tri cho UpdateAt
+            categories.UpdateAt = DateTime.Now;
+            //cap nhat lai DB
+            categoriesDAO.Update(categories);
+            //thong bao thanh cong
+            TempData["message"] = new XMessage("success","Cập nhật trạng thái thành công");
+            //tra ket qua ve Index
             return RedirectToAction("Index");
         }
     }
