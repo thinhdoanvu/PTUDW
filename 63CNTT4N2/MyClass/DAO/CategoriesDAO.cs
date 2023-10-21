@@ -1,6 +1,7 @@
 ﻿using MyClass.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,6 +48,27 @@ namespace MyClass.DAO
             db.Categories.Add(row);
             return db.SaveChanges();
         }
+
+        //Tim kiem 1 mau tin
+        public Categories getRow(int? id)
+        {
+            if (id==null)
+            {
+                return null;
+            }
+            else
+            {
+                return db.Categories.Find(id);
+            }
+        }
+
+        //Update DB
+        public int Update(Categories row)
+        {
+            db.Entry(row).State = EntityState.Modified;
+            return db.SaveChanges();
+        }
+
 
     }
 }

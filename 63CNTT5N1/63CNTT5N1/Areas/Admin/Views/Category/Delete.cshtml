@@ -1,113 +1,68 @@
 ﻿@model MyClass.Model.Categories
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Xác nhận xóa dữ liệu";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="wrapper">
+        <!-- Main Sidebar Container -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Main content -->
+            <section class="content">
 
-<h2>Delete</h2>
+                <!-- Default box -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong class="text-danger">XÁC NHẬN XÓA DỮ LIỆU</strong>
+                            </div>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Categories</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+                            <div class="col-md-6 text-right">
+                                <a href="@Url.Action("Index","Category")" class="btn-sm btn-info"><i class="fa fa-long-arrow-alt-left"></i> Quay lại</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @Html.Partial("Message")
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>@Html.DisplayNameFor(model => model.Name)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Slug)</th>
+                                    <th>@Html.DisplayNameFor(model => model.ParentID)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Order)</th>
+                                    <th>@Html.DisplayNameFor(model => model.MetaDesc)</th>
+                                    <th>@Html.DisplayNameFor(model => model.MetaKey)</th>
+                                    <th>Xác nhận</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@Html.DisplayFor(model => model.Id)</td>
+                                    <td>@Html.DisplayFor(model => model.Name)</td>
+                                    <td>@Html.DisplayFor(model => model.Slug)</td>
+                                    <td>@Html.DisplayFor(model => model.ParentID)</td>
+                                    <td>@Html.DisplayFor(model => model.Order)</td>
+                                    <td>@Html.DisplayFor(model => model.MetaDesc)</td>
+                                    <td>@Html.DisplayFor(model => model.MetaKey)</td>
+                                    <td>
+                                        <div class="form-actions no-color">
+                                            <button class="btn-sm btn-danger" input type="submit" name="Delete"> Xóa [Del] <i class="fa fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Slug)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Slug)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ParentID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ParentID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Order)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Order)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MetaDesc)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MetaDesc)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MetaKey)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MetaKey)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreateBy)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreateBy)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreateAt)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreateAt)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdateBy)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UpdateBy)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdateAt)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UpdateAt)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
-</div>
+                    </div> <!-- /.card-footer-->
+                </div><!-- /.card -->
+            </section><!-- /.content -->
+        </div> <!-- /.content-wrapper -->
+    </div><!-- ./wrapper -->
+}

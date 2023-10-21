@@ -1,8 +1,17 @@
-﻿@model MyClass.Model.Categories
+﻿@model IEnumerable<MyClass.Model.Categories>
 
 @{
-    ViewBag.Title = "Thông tin chi tiết loại sản phẩm";
+    ViewBag.Title = "Trash";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section header{
+    <link rel="stylesheet" href="~/Public/css/jquery.dataTables.min.css" />
+}
+
+@section footer{
+    <script src="~/Public/js/jquery.dataTables.min.js"></script>
+    <script>let table = new DataTable('#myTable');</script>
 }
 
 <div class="wrapper">
@@ -17,18 +26,17 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-6">
-                            <strong class="text-danger">THÔNG TIN CHI TIẾT LOẠI SẢN PHẨM</strong>
+                            <strong class="text-danger">THÙNG RÁC LOẠI SẢN PHẨM</strong>
                         </div>
 
                         <div class="col-md-6 text-right">
-                            <a href="@Url.Action("Edit","Category", new { id = Model.Id })" class="btn-sm btn-success"><i class="fa fa-plus"></i> Sửa</a>
                             <a href="@Url.Action("Index","Category")" class="btn-sm btn-info"><i class="fa fa-long-arrow-alt-left"></i> Quay lại</a>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    @Html.Partial("Message")
-                    <table class="table table-bordered table-striped">
+                @*@Html.Partial("Message")*@
+                    <table class="table table-bordered table-striped" id="myTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -38,18 +46,26 @@
                                 <th>@Html.DisplayNameFor(model => model.Order)</th>
                                 <th>@Html.DisplayNameFor(model => model.MetaDesc)</th>
                                 <th>@Html.DisplayNameFor(model => model.MetaKey)</th>
+                                <th>Chức năng</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach (var item in Model)
+                            {
                             <tr>
-                                <td>@Html.DisplayFor(model => model.Id)</td>
-                                <td>@Html.DisplayFor(model => model.Name)</td>
-                                <td>@Html.DisplayFor(model => model.Slug)</td>
-                                <td>@Html.DisplayFor(model => model.ParentID)</td>
-                                <td>@Html.DisplayFor(model => model.Order)</td>
-                                <td>@Html.DisplayFor(model => model.MetaDesc)</td>
-                                <td>@Html.DisplayFor(model => model.MetaKey)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Slug)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ParentID)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Order)</td>
+                                <td>@Html.DisplayFor(modelItem => item.MetaDesc)</td>
+                                <td>@Html.DisplayFor(modelItem => item.MetaKey)</td>
+                                <td>
+                                    <a href="@Url.Action("Delete","Category", new { id = item.Id })" class="btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                    <a href="@Url.Action("Recover","Category", new { id = item.Id })" class="btn-sm btn-info"><i class="fa fa-undo"></i></a>
+                                </td>
                             </tr>
+                            }
                         </tbody>
                     </table>
 
