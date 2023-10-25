@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -74,7 +75,7 @@ namespace _63CNTT4N1.Areas.Admin.Controllers
                 suppliers.UpdateAt = DateTime.Now;
                 //UpdateBy
                 suppliers.UpdateBy = Convert.ToInt32(Session["UserID"]);
-                //xu ly cho phan upload hình ảnh
+                //xu ly cho phan upload hinh anh
                 var img = Request.Files["img"];//lay thong tin file
                 if (img.ContentLength != 0)
                 {

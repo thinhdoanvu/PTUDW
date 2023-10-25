@@ -63,7 +63,7 @@
                                 <td>@Html.DisplayFor(modelItem => item.Order)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Phone)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Image)</td>
+                                <td><img src="~/Public/img/supplier/@item.Image" alt="Img" class="img-fluid" /></td>
                                 <td>
                                     @if (item.Status == 1)
                                     {
