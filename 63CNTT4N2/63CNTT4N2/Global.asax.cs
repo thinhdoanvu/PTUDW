@@ -18,7 +18,7 @@ namespace _63CNTT4N2
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
-        protected void Session_Start()
+        public void Session_Start()
         {
             Session["UserID"] = "1";
         }

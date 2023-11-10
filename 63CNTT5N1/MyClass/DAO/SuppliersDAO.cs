@@ -74,7 +74,7 @@ namespace MyClass.DAO
         public int Delete(Suppliers row)
         {
             db.Suppliers.Remove(row);
-            return db.SaveChanges();
+            return db.SaveChanges();//thanh cong => return 1
         }
     }
 }

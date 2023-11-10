@@ -131,10 +131,12 @@ namespace _63CNTT4N1.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                //xu ly tu dong mot so truong
-                //slug
-                suppliers.Slug = XString.Str_Slug(suppliers.Name);
-                //Order
+                //xu ly tu dong cho cac truong: CreateAt/By, UpdateAt/By, Slug, OrderBy
+
+                //Xu ly tu dong cho: UpdateAt
+                suppliers.UpdateAt = DateTime.Now;
+
+                //Xu ly tu dong cho: Order
                 if (suppliers.Order == null)
                 {
                     suppliers.Order = 1;
@@ -143,16 +145,41 @@ namespace _63CNTT4N1.Areas.Admin.Controllers
                 {
                     suppliers.Order += 1;
                 }
-                //UpdateAt
-                suppliers.UpdateAt = DateTime.Now;
-                //UpdateBy
-                suppliers.UpdateBy = Convert.ToInt32(Session["UserID"]);
 
+                //Xu ly tu dong cho: Slug
+                suppliers.Slug = XString.Str_Slug(suppliers.Name);
+
+                //xu ly cho phan upload hinh anh
+                var img = Request.Files["img"];//lay thong tin file
+                string PathDir = "~/Public/img/supplier";
+                if (img.ContentLength != 0)
+                {
+                    //Xu ly cho muc xoa hinh anh
+                    if (suppliers.Image != null)
+                    {
+                        string DelPath = Path.Combine(Server.MapPath(PathDir), suppliers.Image);
+                        System.IO.File.Delete(DelPath);
+                    }
+
+                    string[] FileExtentions = new string[] { ".jpg", ".jpeg", ".png", ".gif" };
+                    //kiem tra tap tin co hay khong
+                    if (FileExtentions.Contains(img.FileName.Substring(img.FileName.LastIndexOf("."))))//lay phan mo rong cua tap tin
+                    {
+                        string slug = suppliers.Slug;
+                        //ten file = Slug + phan mo rong cua tap tin
+                        string imgName = slug + suppliers.Id + img.FileName.Substring(img.FileName.LastIndexOf("."));
+                        suppliers.Image = imgName;
+                        //upload hinh
+                        string PathFile = Path.Combine(Server.MapPath(PathDir), imgName);
+                        img.SaveAs(PathFile);
+                    }
+
+                }//ket thuc phan upload hinh anh
 
                 //cap nhat mau tin vao DB
                 suppliersDAO.Update(suppliers);
-                //hien thi thong bao thanh cong
-                TempData["message"] = new XMessage("success", "Cập nhật thông tin thành công");
+                //thong bao thanh cong
+                TempData["message"] = new XMessage("success", "Cập nhật mẩu tin thành công");
                 return RedirectToAction("Index");
             }
             ViewBag.OrderList = new SelectList(suppliersDAO.getList("Index"), "Order", "Name");
@@ -185,7 +212,17 @@ namespace _63CNTT4N1.Areas.Admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Suppliers suppliers =suppliersDAO.getRow(id);
-            suppliersDAO.Delete(suppliers);
+            //tim va xoa anh cua NCC
+            if (suppliersDAO.Delete(suppliers)==1)
+            {
+                string PathDir = "~/Public/img/supplier/";
+                if (suppliers.Image != null)//ton tai mot logo cua NCC tu truoc
+                {
+                    //xoa anh cu
+                    string DelPath = Path.Combine(Server.MapPath(PathDir), suppliers.Image);
+                    System.IO.File.Delete(DelPath);
+                }
+            }
             //hien thi thong bao thanh cong
             TempData["message"] = new XMessage("success", "Cập nhật thông tin thành công");
             return RedirectToAction("Trash");

@@ -39,6 +39,7 @@ namespace _63CNTT5N1.Areas.Admin.Controllers
             {
                 //thong bao that bai
                 TempData["message"] = new XMessage("danger", "Không tồn tại nhà cung cấp");
+                return RedirectToAction("Index");
             }
             return View(suppliers);
         }
@@ -88,7 +89,7 @@ namespace _63CNTT5N1.Areas.Admin.Controllers
                     {
                         string slug = suppliers.Slug;
                         //ten file = Slug + phan mo rong cua tap tin
-                        string imgName = slug + suppliers.Id + img.FileName.Substring(img.FileName.LastIndexOf("."));
+                        string imgName = slug + img.FileName.Substring(img.FileName.LastIndexOf("."));
                         suppliers.Image = imgName;
                         //upload hinh
                         string PathDir = "~/Public/img/supplier";
@@ -167,7 +168,7 @@ namespace _63CNTT5N1.Areas.Admin.Controllers
                     {
                         string slug = suppliers.Slug;
                         //ten file = Slug + phan mo rong cua tap tin
-                        string imgName = slug + suppliers.Id + img.FileName.Substring(img.FileName.LastIndexOf("."));
+                        string imgName = slug + img.FileName.Substring(img.FileName.LastIndexOf("."));
                         suppliers.Image = imgName;
                         //upload hinh
                         string PathFile = Path.Combine(Server.MapPath(PathDir), imgName);
@@ -210,11 +211,22 @@ namespace _63CNTT5N1.Areas.Admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Suppliers suppliers = suppliersDAO.getRow(id);
+            //xu ly cho phan upload hinh anh
+            var img = Request.Files["img"];//lay thong tin file
+            string PathDir = "~/Public/img/supplier";
             //xoa mau tin ra khoi DB
-            suppliersDAO.Delete(suppliers);
+            if (suppliersDAO.Delete(suppliers)==1)
+            {
+                //Xu ly cho muc xoa hinh anh
+                if (suppliers.Image != null)
+                {
+                    string DelPath = Path.Combine(Server.MapPath(PathDir), suppliers.Image);
+                    System.IO.File.Delete(DelPath);
+                }
+            }
             //thong bao xoa mau tin thanh cong
             TempData["message"] = new XMessage("success", "Xóa nhà cung cấp thành công");
-            return RedirectToAction("Index");
+            return RedirectToAction("Trash");
         }
         //phat sinh them 1 so action: Status, Trash, DelTrash, Undo: Copy tu Category Controller
         //////////////////////////////////////////////////////////////////////////////////////
