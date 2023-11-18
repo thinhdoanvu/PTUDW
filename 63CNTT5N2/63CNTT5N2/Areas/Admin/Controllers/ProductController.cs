@@ -316,7 +316,7 @@ namespace _63CNTT5N2.Areas.Admin.Controllers
                 //thong bao phuc hoi du lieu thanh cong
                 TempData["message"] = TempData["message"] = new XMessage("success", "Phục hồi mẩu tin thành công");
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Trash");
             }
         }
     }
