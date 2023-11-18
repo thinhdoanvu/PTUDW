@@ -14,7 +14,6 @@
     <script>let table = new DataTable('#myTable');</script>
 }
 
-
 <div class="wrapper">
     <!-- Main Sidebar Container -->
     <!-- Content Wrapper. Contains page content -->
@@ -29,39 +28,41 @@
                         <div class="col-md-6">
                             <strong class="text-danger">DANH MỤC SẢN PHẨM</strong>
                         </div>
+
                         <div class="col-md-6 text-right">
-                            <a href="@Url.Action("Create","Product")" class="btn-sm btn-success"><i class="fa fa-plus"> Thêm</i></a>
-                            <a href="@Url.Action("Trash","Product")" class="btn-sm btn-danger"><i class="fa fa-trash"> Thùng rác</i></a>
+                            <a href="@Url.Action("Create","Product")" class="btn-sm btn-success"><i class="fa fa-plus"></i> Thêm</a>
+                            <a href="@Url.Action("Trash","Product")" class="btn-sm btn-danger"><i class="fa fa-trash"></i> Thùng rác</a>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    @*hien thi dong thong bao*@
                     @Html.Partial("Message")
                     <table class="table table-bordered table-striped" id="myTable">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>@Html.DisplayNameFor(model => model.Id)</th>
+                                <th>@Html.DisplayNameFor(model => model.CatId)</th>
                                 <th>@Html.DisplayNameFor(model => model.Name)</th>
-                                <th>@Html.DisplayNameFor(model => model.CatID)</th>
-                                <th>@Html.DisplayNameFor(model => model.SupplierID)</th>
+                                <th>@Html.DisplayNameFor(model => model.SupplierId)</th>
                                 <th>@Html.DisplayNameFor(model => model.Price)</th>
-                                <th>@Html.DisplayNameFor(model => model.Amount)</th>
-                                <th>@Html.DisplayNameFor(model => model.Image)</th>
+                                <th>@Html.DisplayNameFor(model => model.Qty)</th>
+                                <th>@Html.DisplayNameFor(model => model.Img)</th>
                                 <th>Chức năng</th>
                             </tr>
                         </thead>
-                        <tbody>                       
+                        <tbody>
                             @foreach (var item in Model)
                             {
                                 <tr>
+                                    <td><input type="checkbox" name="id" value="" /></td>
                                     <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.CatId)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.CatID)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.SupplierID)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.SupplierId)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Price)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Amount)</td>
-                                    <td><img src="~/Public/img/product/@item.Image" alt="Img" class="img-fluid" /></td>
+                                    <td>@Html.DisplayFor(modelItem => item.Qty)</td>
+                                    <td><img src="~/Public/img/product/@item.Img" alt="Img" class="img-fluid" /></td>
                                     <td>
                                         @if (item.Status == 1)
                                         {
@@ -78,7 +79,6 @@
                                 </tr>
                             }
                         </tbody>
-
                     </table>
 
                 </div> <!-- /.card-footer-->

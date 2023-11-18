@@ -14,62 +14,62 @@ namespace MyClass.Model
         [Key]
         public int Id { get; set; }
 
-        [Display(Name = "Loại sản phẩm")]
-        [Required(ErrorMessage = "Mã loại sản phẩm không được để trống")]
-        public int CatID { get; set; }
+        [Required(ErrorMessage = "Mã loại SP không để trống")]
+        [Display(Name = "Mã loại SP")]
+        public int CatId { get; set; }
 
+        [Required(ErrorMessage = "Tên sản phẩm không để trống")]
         [Display(Name = "Tên sản phẩm")]
-        [Required(ErrorMessage = "Tên sản phẩm không được để trống")]
         public string Name { get; set; }
 
-        [Display(Name = "Mã NCC")]
-        [Required(ErrorMessage = "Nhà CC không được để trống")]
-        public int SupplierID { get; set; }
+        [Required(ErrorMessage = "Mã nhà cung cấp không để trống")]
+        [Display(Name = "Mã nhà cung cấp")]
+        public int SupplierId { get; set; }
 
         [Display(Name = "Tên rút gọn")]
         public string Slug { get; set; }
 
         [Display(Name = "Hình ảnh")]
-        public string Image { get; set; }
+        public string Img { get; set; }
 
-        [Display(Name = "Giá sản phẩm")]
-        [Required(ErrorMessage = "Giá không được để trống")]
+        [Required(ErrorMessage = "Giá nhập không để trống")]
+        [Display(Name = "Giá nhập")]
         public decimal Price { get; set; }
 
+        [Required(ErrorMessage = "Giá bán không để trống")]
         [Display(Name = "Giá bán")]
-        [Required(ErrorMessage = "Giá bán không được để trống")]
         public decimal SalePrice { get; set; }
 
+        [Required(ErrorMessage = "Số lượng không để trống")]
         [Display(Name = "Số lượng")]
-        [Required(ErrorMessage = "Số lượng không được để trống")]
-        public decimal Amount { get; set; }
+        public int Qty { get; set; }
 
+        [Required(ErrorMessage = "Mô tả không để trống")]
         [Display(Name = "Mô tả")]
-        [Required(ErrorMessage = "Mô tả không được để trống")]
         public string MetaDesc { get; set; }
 
+        [Required(ErrorMessage = "Từ khóa không để trống")]
         [Display(Name = "Từ khóa")]
-        [Required(ErrorMessage = "Từ khóa không được để trống")]
         public string MetaKey { get; set; }
 
+        [Required(ErrorMessage = "Người tạo không để trống")]
         [Display(Name = "Người tạo")]
-        [Required(ErrorMessage = "Người tạo không được để trống")]
         public int CreateBy { get; set; }
 
+        [Required(ErrorMessage = "Ngày tạo không để trống")]
         [Display(Name = "Ngày tạo")]
-        [Required(ErrorMessage = "Ngày tạo không được để trống")]
         public DateTime CreateAt { get; set; }
 
+        [Required(ErrorMessage = "Người cập nhật không để trống")]
         [Display(Name = "Người cập nhật")]
-        [Required(ErrorMessage = "Người cập nhật không được để trống")]
         public int UpdateBy { get; set; }
 
+        [Required(ErrorMessage = "Ngày cập nhật không để trống")]
         [Display(Name = "Ngày cập nhật")]
-        [Required(ErrorMessage = "Ngày cập nhật không được để trống")]
         public DateTime UpdateAt { get; set; }
 
+        [Required(ErrorMessage = "Trạng thái")]
         [Display(Name = "Trạng thái")]
         public int? Status { get; set; }
-
     }
 }

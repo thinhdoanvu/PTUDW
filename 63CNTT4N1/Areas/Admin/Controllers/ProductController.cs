@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using _63CNTT4N1.Library;
-using MyClass.DAO;
 using MyClass.Model;
+using MyClass.DAO;
+using System.IO;
+using _63CNTT4N1.Library;
 
 namespace _63CNTT4N1.Areas.Admin.Controllers
 {
@@ -18,37 +18,38 @@ namespace _63CNTT4N1.Areas.Admin.Controllers
         ProductsDAO productsDAO = new ProductsDAO();
         CategoriesDAO categoriesDAO = new CategoriesDAO();
         SuppliersDAO suppliersDAO = new SuppliersDAO();
-        ////////////////////////////////////////////////////////////////////
-        // GET: Admin/Products/Index
+        ////////////////////////////////////////////////////////////
+        // GET: Admin/Product/Index
         public ActionResult Index()
         {
             return View(productsDAO.getList("Index"));
         }
-        ////////////////////////////////////////////////////////////////////
-        // GET: Admin/Products/Details/5
+        ////////////////////////////////////////////////////////////
+        // GET: Admin/Product/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
-                //hien thi thong bao
-                TempData["message"] = new XMessage("danger", "Không tìm thấy sản phẩm");
+                //thong bao that bai
+                TempData["message"] = new XMessage("danger", "Không tồn tại sản phẩm");
                 return RedirectToAction("Index");
             }
             Products products = productsDAO.getRow(id);
             if (products == null)
             {
-                //hien thi thong bao
-                TempData["message"] = new XMessage("danger", "Không tìm thấy sản phẩm");
+                //thong bao that bai
+                TempData["message"] = new XMessage("danger", "Không tồn tại sản phẩm");
                 return RedirectToAction("Index");
             }
             return View(products);
         }
-        ////////////////////////////////////////////////////////////////////
-        // GET: Admin/Products/Create
+        ////////////////////////////////////////////////////////////
+        // GET: Admin/Product/Create
         public ActionResult Create()
         {
-            ViewBag.ListCatID = new SelectList(categoriesDAO.getList("Index"),"Id","Name");//categories
-            ViewBag.ListSupID = new SelectList(suppliersDAO.getList("Index"),"Id","Name");//suppliers
+            ViewBag.ListCatID = new SelectList(categoriesDAO.getList("Index"), "Id", "Name");//sai CatId - truy van tu bang Categories
+            ViewBag.ListSupID = new SelectList(suppliersDAO.getList("Index"), "Id", "Name");//sai SupplierID - truy van bang Suppliers
+            //dung de lua chon tu danh sach droplist nhu bang Categories: ParentID va Supplier: ParentID
             return View();
         }
 
@@ -58,18 +59,19 @@ namespace _63CNTT4N1.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                //xu ly tu dong cho mot so truong
-                //CreateAt
+                //xu ly thong tin tu dong cho mot so truong
+                //Xu ly tu dong: CreateAt
                 products.CreateAt = DateTime.Now;
-                //CreateBy
-                products.CreateBy = Convert.ToInt32(Session["UserID"]);
-                //slug
-                products.Slug = XString.Str_Slug(products.Name);
-                //UpdateAt
+                //Xu ly tu dong: UpdateAt
                 products.UpdateAt = DateTime.Now;
-                //UpdateBy
-                products.UpdateBy = Convert.ToInt32(Session["UserID"]);
-                //xu ly cho muc hinh anh
+                //Xu ly tu dong: CreateBy
+                products.CreateBy = Convert.ToInt32(Session["UserId"]);
+                //Xu ly tu dong: UpdateBy
+                products.UpdateBy = Convert.ToInt32(Session["UserId"]);
+                //Xu ly tu dong: Slug
+                products.Slug = XString.Str_Slug(products.Name);
+
+                //xu ly cho phan upload hinh anh
                 var img = Request.Files["img"];//lay thong tin file
                 if (img.ContentLength != 0)
                 {
@@ -80,44 +82,43 @@ namespace _63CNTT4N1.Areas.Admin.Controllers
                         string slug = products.Slug;
                         //ten file = Slug + phan mo rong cua tap tin
                         string imgName = slug + img.FileName.Substring(img.FileName.LastIndexOf("."));
-                        products.Image = imgName;
-                        //upload hinh vao folder product
-                        string PathDir = "~/Public/img/product/";
+                        products.Img = imgName;
+                        //upload hinh
+                        string PathDir = "~/Public/img/product";
                         string PathFile = Path.Combine(Server.MapPath(PathDir), imgName);
                         img.SaveAs(PathFile);
                     }
                 }//ket thuc phan upload hinh anh
 
-                //chen them dong du lieu vao DB
+                //luu vao DB
                 productsDAO.Insert(products);
-                //thong bao them moi thanh cong
-                TempData["message"] = new XMessage("success", "Thêm mới sản phẩm thành công");
+                //thong bao tao mau tin thanh cong
+                TempData["message"] = new XMessage("success", "Tạo mới sản phẩm thành công");
                 return RedirectToAction("Index");
             }
-            ViewBag.ListCatID = new SelectList(categoriesDAO.getList("Index"), "Id", "Name");//categories
-            ViewBag.ListSupID = new SelectList(suppliersDAO.getList("Index"), "Id", "Name");//suppliers
+            ViewBag.ListCatID = new SelectList(categoriesDAO.getList("Index"), "Id", "Name");//sai CatId - truy van tu bang Categories
+            ViewBag.ListSupID = new SelectList(suppliersDAO.getList("Index"), "Id", "Name");//sai SupplierID - truy van bang Suppliers
             return View(products);
         }
-
-        ////////////////////////////////////////////////////////////////////
-        // GET: Admin/Products/Edit/5
+        ////////////////////////////////////////////////////////////
+        // GET: Admin/Product/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
-                //hien thi thong bao
-                TempData["message"] = new XMessage("danger", "Không tìm thấy sản phẩm");
+                //thong bao that bai
+                TempData["message"] = new XMessage("danger", "Không tồn tại sản phẩm");
                 return RedirectToAction("Index");
             }
             Products products = productsDAO.getRow(id);
             if (products == null)
             {
-                //hien thi thong bao
-                TempData["message"] = new XMessage("danger", "Không tìm thấy sản phẩm");
+                //thong bao that bai
+                TempData["message"] = new XMessage("danger", "Không tồn tại sản phẩm");
                 return RedirectToAction("Index");
             }
-            ViewBag.ListCatID = new SelectList(categoriesDAO.getList("Index"), "Id", "Name");//categories
-            ViewBag.ListSupID = new SelectList(suppliersDAO.getList("Index"), "Id", "Name");//suppliers
+            ViewBag.ListCatID = new SelectList(categoriesDAO.getList("Index"), "Id", "Name");//sai CatId - truy van tu bang Categories
+            ViewBag.ListSupID = new SelectList(suppliersDAO.getList("Index"), "Id", "Name");//sai SupplierID - truy van bang Suppliers
             return View(products);
         }
 
@@ -127,28 +128,24 @@ namespace _63CNTT4N1.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                //xu ly tu dong mot so truong
-                //slug
-                products.Slug = XString.Str_Slug(products.Name);
-                //UpdateAt
+                //xu ly tu dong cho cac truong: Slug, CreateAt/By, UpdateAt/By, Oder
+                //Xu ly tu dong: UpdateAt
                 products.UpdateAt = DateTime.Now;
-                //UpdateBy
-                products.UpdateBy = Convert.ToInt32(Session["UserID"]);
-                
-                //truoc khi cap nhat lai anh moi thi xoa anh cu: Copy tu Supplier
-                var img = Request.Files["img"];//lay thong tin file
-                string PathDir = "~/Public/img/product/";
-                if (img.ContentLength != 0 && products.Image != null)//ton tai mot logo cua NCC tu truoc
-                {
-                    //xoa anh cu
-                    string DelPath = Path.Combine(Server.MapPath(PathDir), products.Image);
-                    System.IO.File.Delete(DelPath);
-                }
+                //Xu ly tu dong: Slug
+                products.Slug = XString.Str_Slug(products.Name);
 
-                //upload anh moi cua NCC: Copy tu Supplier
                 //xu ly cho phan upload hinh anh
+                var img = Request.Files["img"];//lay thong tin file
+                string PathDir = "~/Public/img/product";
                 if (img.ContentLength != 0)
                 {
+                    //Xu ly cho muc xoa hinh anh
+                    if (products.Img != null)
+                    {
+                        string DelPath = Path.Combine(Server.MapPath(PathDir), products.Img);
+                        System.IO.File.Delete(DelPath);
+                    }
+
                     string[] FileExtentions = new string[] { ".jpg", ".jpeg", ".png", ".gif" };
                     //kiem tra tap tin co hay khong
                     if (FileExtentions.Contains(img.FileName.Substring(img.FileName.LastIndexOf("."))))//lay phan mo rong cua tap tin
@@ -156,161 +153,171 @@ namespace _63CNTT4N1.Areas.Admin.Controllers
                         string slug = products.Slug;
                         //ten file = Slug + phan mo rong cua tap tin
                         string imgName = slug + img.FileName.Substring(img.FileName.LastIndexOf("."));
-                        products.Image = imgName;//abc-def.jpg
+                        products.Img = imgName;
                         //upload hinh
                         string PathFile = Path.Combine(Server.MapPath(PathDir), imgName);
                         img.SaveAs(PathFile);
                     }
                 }//ket thuc phan upload hinh anh
 
-                //cap nhat mau tin
+                //cap nhat mau tin vao DB
                 productsDAO.Update(products);
-                //thong bao cap nhat thanh cong
+                //thong bao tao mau tin thanh cong
                 TempData["message"] = new XMessage("success", "Cập nhật sản phẩm thành công");
                 return RedirectToAction("Index");
             }
             return View(products);
         }
-
-        ////////////////////////////////////////////////////////////////////
-        // GET: Admin/Products/Delete/5
+        ////////////////////////////////////////////////////////////
+        // GET: Admin/Product/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
-                //hien thi thong bao
-                TempData["message"] = new XMessage("danger", "Không tìm thấy sản phẩm");
+                //thong bao that bai
+                TempData["message"] = new XMessage("danger", "Không tồn tại sản phẩm");
+                return RedirectToAction("Index");
             }
-            Products products =productsDAO.getRow(id);
+            Products products = productsDAO.getRow(id);
             if (products == null)
             {
-                //hien thi thong bao
-                TempData["message"] = new XMessage("danger", "Không tìm thấy sản phẩm");
+                //thong bao that bai
+                TempData["message"] = new XMessage("danger", "Không tồn tại sản phẩm");
+                return RedirectToAction("Index");
             }
             return View(products);
         }
 
-        // POST: Admin/Products/Delete/5
+        // POST: Admin/Product/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Products products = productsDAO.getRow(id);
-
-            //tim va xoa anh cua NCC
-            if (productsDAO.Delete(products) == 1)
-            {
-                string PathDir = "~/Public/img/product/";
-                if (products.Image != null)//ton tai mot anh cua san pham tu truoc
-                {
-                    //xoa anh cu
-                    string DelPath = Path.Combine(Server.MapPath(PathDir), products.Image);
-                    System.IO.File.Delete(DelPath);
-                }
-            }
-            //hien thi thong bao thanh cong
+            productsDAO.Delete(products);
+            //thong bao xoa mau tin thanh cong
             TempData["message"] = new XMessage("success", "Xóa sản phẩm thành công");
             return RedirectToAction("Trash");
         }
 
-        ////////////////////////////////////////////////////////////////////
-        // GET: Admin/Products/Status/5
+        //phat sinh them 1 so action: Status, Trash, DelTrash, Undo: Copy tu Category Controller
+        //////////////////////////////////////////////////////////////////////////////////////
+        //STATUS
+        // GET: Admin/Prducts/Status/5
         public ActionResult Status(int? id)
         {
             if (id == null)
             {
-                //hien thi thong bao
+                //thong bao that bai
                 TempData["message"] = new XMessage("danger", "Cập nhật trạng thái thất bại");
                 return RedirectToAction("Index");
             }
+            //truy van dong co id = id yeu cau
             Products products = productsDAO.getRow(id);
             if (products == null)
             {
-                //hien thi thong bao
+                //thong bao that bai
                 TempData["message"] = new XMessage("danger", "Cập nhật trạng thái thất bại");
                 return RedirectToAction("Index");
             }
-            //cap nhat trang thai
-            products.Status = (products.Status == 1) ? 2 : 1;
-            //cap nhạt Update At
-            products.UpdateAt = DateTime.Now;
-            //cap nhat Update By
-            products.UpdateBy = Convert.ToInt32(Session["UserID"]);
-            //Update DB
-            productsDAO.Update(products);
-            //hien thi thong bao
-            TempData["message"] = new XMessage("success", "Cập nhật trạng thái thành công");
-            //tro ve trang Index
-            return RedirectToAction("Index");
+            else
+            {
+                //chuyen doi trang thai cua Satus tu 1<->2
+                products.Status = (products.Status == 1) ? 2 : 1;
+
+                //cap nhat gia tri UpdateAt
+                products.UpdateAt = DateTime.Now;
+
+                //cap nhat lai DB
+                productsDAO.Update(products);
+
+                //thong bao cap nhat trang thai thanh cong
+                TempData["message"] = TempData["message"] = new XMessage("success", "Cập nhật trạng thái thành công");
+
+                return RedirectToAction("Index");
+            }
         }
 
-        ////////////////////////////////////////////////////////////////////
-        // GET: Admin/Product/DelTrash/5
+        //////////////////////////////////////////////////////////////////////////////////////
+        //DELTRAH
+        // GET: Admin/Products/DelTrash/5
         public ActionResult DelTrash(int? id)
         {
             if (id == null)
             {
-                //hien thi thong bao
-                TempData["message"] = new XMessage("danger", "Xóa mẩu tin thất bại");
+                //thong bao that bai
+                TempData["message"] = new XMessage("danger", "Không tìm thấy mẩu tin");
                 return RedirectToAction("Index");
             }
+            //truy van dong co id = id yeu cau
             Products products = productsDAO.getRow(id);
             if (products == null)
             {
-                //hien thi thong bao
-                TempData["message"] = new XMessage("danger", "Xóa mẩu tin thất bại");
+                //thong bao that bai
+                TempData["message"] = new XMessage("danger", "Không tìm thấy mẩu tin");
                 return RedirectToAction("Index");
             }
-            //cap nhat trang thai
-            products.Status = 0;
-            //cap nhạt Update At
-            products.UpdateAt = DateTime.Now;
-            //cap nhat Update By
-            products.UpdateBy = Convert.ToInt32(Session["UserID"]);
-            //Update DB
-            productsDAO.Update(products);
-            //hien thi thong bao
-            TempData["message"] = new XMessage("success", "Xóa mẩu tin thành công");
-            //tro ve trang Index
-            return RedirectToAction("Index");
+            else
+            {
+                //chuyen doi trang thai cua Satus tu 1,2 -> 0: Không hiển thị ở Index
+                products.Status = 0;
+
+                //cap nhat gia tri UpdateAt
+                products.UpdateAt = DateTime.Now;
+
+                //cap nhat lai DB
+                productsDAO.Update(products);
+
+                //thong bao cap nhat trang thai thanh cong
+                TempData["message"] = TempData["message"] = new XMessage("success", "Xóa mẩu tin vào thùng rác thành công");
+
+                return RedirectToAction("Index");
+            }
         }
 
-        ////////////////////////////////////////////////////////////////////
-        // GET: Admin/Product/Trash = luc thung rac
+        //////////////////////////////////////////////////////////////////////////////////////
+        //TRASH: Luc thung rac
+        // GET: Admin/Products/Trash
         public ActionResult Trash()
         {
             return View(productsDAO.getList("Trash"));
         }
 
-        ////////////////////////////////////////////////////////////////////
-        // GET: Admin/Product/Undo/5
-        public ActionResult Undo(int? id)
+        //////////////////////////////////////////////////////////////////////////////////////
+        //RECOVER
+        // GET: Admin/Products/Recover/5
+        public ActionResult Recover(int? id)
         {
             if (id == null)
             {
-                //hien thi thong bao
+                //thong bao that bai
                 TempData["message"] = new XMessage("danger", "Phục hồi mẩu tin thất bại");
                 return RedirectToAction("Index");
             }
+            //truy van dong co id = id yeu cau
             Products products = productsDAO.getRow(id);
             if (products == null)
             {
-                //hien thi thong bao
+                //thong bao that bai
                 TempData["message"] = new XMessage("danger", "Phục hồi mẩu tin thất bại");
                 return RedirectToAction("Index");
             }
-            //cap nhat trang thai status = 2
-            products.Status = 2;
-            //cap nhạt Update At
-            products.UpdateAt = DateTime.Now;
-            //cap nhat Update By
-            products.UpdateBy = Convert.ToInt32(Session["UserID"]);
-            //Update DB
-            productsDAO.Update(products);
-            //hien thi thong bao
-            TempData["message"] = new XMessage("success", "Phục hồi mẩu tin thành công");
-            //tro ve trang Index
-            return RedirectToAction("Trash");//o lai thung rac de tiep tuc Undo
+            else
+            {
+                //chuyen doi trang thai cua Satus tu 0 -> 2: Khong xuat ban
+                products.Status = 2;
+
+                //cap nhat gia tri UpdateAt
+                products.UpdateAt = DateTime.Now;
+
+                //cap nhat lai DB
+                productsDAO.Update(products);
+
+                //thong bao phuc hoi du lieu thanh cong
+                TempData["message"] = TempData["message"] = new XMessage("success", "Phục hồi mẩu tin thành công");
+
+                return RedirectToAction("Index");
+            }
         }
     }
 }
