@@ -1,0 +1,9 @@
+﻿@if (TempData.ContainsKey("message"))
+{
+
+    _63CNTTX.Library.XMessage message = (_63CNTTX.Library.XMessage)TempData["message"];
+    <div class="alert alert-@message.TypeMsg">
+        @message.Msg
+    </div>
+}
+

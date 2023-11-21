@@ -1,0 +1,211 @@
+﻿@model IEnumerable<MyClass.Model.Menus>
+
+@{
+    ViewBag.Title = "Danh sách Menus";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section header{
+    <link rel="stylesheet" href="~/Public/css/jquery.dataTables.min.css" />
+}
+
+@section footer{
+    <script src="~/Public/js/jquery.dataTables.min.js"></script>
+    <script>let table = new DataTable('#myTable');</script>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="wrapper">
+        <!-- Main Sidebar Container -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Main content -->
+            <section class="content">
+
+                <!-- Default box -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong class="text-danger">DANH SÁCH MENU</strong>
+                            </div>
+
+                            <div class="col-md-6 text-right">
+                                <a href="@Url.Action("Trash", "Menu")" class="btn-sm btn-danger"><i class="fa fa-trash"></i> Thùng rác</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @Html.Partial("Message")
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="accordion" id="accordionExample">
+                                    @*----Khu vuc vi tri----*@
+                                    <div class="card">
+                                        <div class="card-header" id="headingPosition">
+                                            <span>Vị trí</span>
+                                            <select name="Position" class="form-control">
+                                                <option value="MainMenu">Main Menu</option>
+                                                <option value="Footer">Footer</option>
+                                            </select>
+                                        </div><!--end_card-header-->
+                                    </div><!--end_vitri-->
+                                    @*----Khu vuc loai san pham----*@
+                                    <div class="card">
+                                        <div class="card-header" id="headingCategory">
+                                            <span>Loại sản phẩm</span>
+                                            <span class="float-right btn-sm btn-info" data-toggle="collapse" data-target="#collapseCategory"
+                                                  aria-expanded="true" aria-controls="collapseCategory">
+                                                <i class="fa fa-plus"></i>
+                                            </span>
+                                        </div><!--end_card-header-->
+                                        @*----Menu con loai san pham----*@
+                                        <div id="collapseCategory" class="collapse p-2 m-2" aria-labelledby="headingCategory" data-parent="#accordionExample">
+                                            @foreach (var cat in ViewBag.CatList)
+                                            {
+                                                <fieldset class="form-group">
+                                                    <input name="nameCategory" value="@cat.Id" id="category_@cat.Id" type="checkbox" />
+                                                    <label for="category_@cat.Id">@cat.Name</label>
+                                                </fieldset>
+                                            }
+                                            <fieldset class="form-group">
+                                                <input type="submit" name="ThemCategory" value="Thêm" class="button btn-success form-control" />
+                                            </fieldset>
+                                        </div>
+                                    </div><!--end_vitri_loaihang-->
+                                    @*----Khu vuc nha cung cap----*@
+                                    <div class="card">
+                                        <div class="card-header" id="headingSupplier">
+                                            <span>Nhà cung cấp</span>
+                                            <span class="float-right btn-sm btn-info" data-toggle="collapse" data-target="#collapseSupplier"
+                                                  aria-expanded="true" aria-controls="collapseSupplier">
+                                                <i class="fa fa-plus"></i>
+                                            </span>
+                                        </div><!--end_card-header-->
+                                        @*----Menu con nha cung cap----*@
+                                        <div id="collapseSupplier" class="collapse p-2 m-2" aria-labelledby="headingSupplier" data-parent="#accordionExample">
+                                            @foreach (var sup in ViewBag.SupList)
+                                            {
+                                                <fieldset class="form-group">
+                                                    <input name="nameSupplier" value="@sup.Id" id="supplier_@sup.Id" type="checkbox" />
+                                                    <label for="supplier_@sup.Id">@sup.Name</label>
+                                                </fieldset>
+                                            }
+                                            <fieldset class="form-group">
+                                                <input type="submit" name="ThemSupplier" value="Thêm" class="button btn-success form-control" />
+                                            </fieldset>
+                                        </div>
+                                    </div><!--end_vitri_nhacungcap-->
+                                    @*----Khu vuc san pham----*@
+                                    <div class="card">
+                                        <div class="card-header" id="headingProduct">
+                                            <span>Sản phẩm</span>
+                                            <span class="float-right btn-sm btn-info" data-toggle="collapse" data-target="#collapseProduct"
+                                                  aria-expanded="true" aria-controls="collapseProduct">
+                                                <i class="fa fa-plus"></i>
+                                            </span>
+                                        </div><!--end_card-header-->
+                                        @*----Menu con san pham----*@
+                                        <div id="collapseProduct" class="collapse p-2 m-2" aria-labelledby="headingProduct" data-parent="#accordionExample">
+                                            @foreach (var pro in ViewBag.ProList)
+                                            {
+                                                <fieldset class="form-group">
+                                                    <input name="nameProduct" value="@pro.Id" id="supplier_@pro.Id" type="checkbox" />
+                                                    <label for="product_@pro.Id">@pro.Name</label>
+                                                </fieldset>
+                                            }
+                                            <fieldset class="form-group">
+                                                <input type="submit" name="ThemProduct" value="Thêm" class="button btn-success form-control" />
+                                            </fieldset>
+                                        </div>
+                                    </div><!--end_vitri_san_pham-->
+                                    @*----Khu vuc menu tuy chon----*@
+                                    <div class="card">
+                                        <div class="card-header" id="headingCustom">
+                                            <span>Tùy chọn</span>
+                                            <span class="float-right btn-sm btn-info" data-toggle="collapse" data-target="#collapseCustom"
+                                                  aria-expanded="true" aria-controls="collapseCustom">
+                                                <i class="fa fa-plus"></i>
+                                            </span>
+                                        </div><!--end_card-header-->
+                                        @*----Menu con tuy chon----*@
+                                        <div id="collapseCustom" class="collapse p-2 m-2" aria-labelledby="headingCustom" data-parent="#accordionExample">
+                                            <fieldset class="form-group">
+                                                <label>Tên Menu</label>
+                                                <input type="text" name="nameCustom" class="form-control" id="checkid" />
+                                            </fieldset>
+                                            <fieldset class="form-group">
+                                                <label>Liên kết</label>
+                                                <input type="text" name="linkCustom" class="form-control" />
+                                            </fieldset>
+                                            <fieldset class="form-group">
+                                                <input type="submit" name="ThemCustom" value="Thêm" class="buttons btn-success form-control" />
+                                            </fieldset>
+                                        </div>
+                                    </div><!--end_vitri-->
+
+                                </div><!--end_accordion-->
+                            </div><!--end-col-3-->
+                            @*-----Khu vu hien thi noi dung Index*@
+                            <div class="col-md-9">
+                                <table class="table table-bordered table-striped" id="myTable">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>ID</th>
+                                            <th>@Html.DisplayNameFor(model => model.Name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.Link)</th>
+                                            <th>@Html.DisplayNameFor(model => model.TypeMenu)</th>
+                                            <th>@Html.DisplayNameFor(model => model.Order)</th>
+                                            <th>Chức năng</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td><input type="checkbox" name="checkid" value="" /></td>
+                                                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.Link)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.TypeMenu)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.Order)</td>
+                                                <td>
+                                                    @if (item.Status == 1)
+                                                    {
+                                                        <a href="@Url.Action("Status","Menu", new { id = item.Id })" class="btn-sm btn-success"><i class="fa fa-toggle-on"></i></a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="@Url.Action("Status","Menu", new { id = item.Id })" class="btn-sm btn-danger"><i class="fa fa-toggle-off"></i></a>
+                                                    }
+                                                    <a href="@Url.Action("Edit","Menu", new { id = item.Id })" class="btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                                                    <a href="@Url.Action("Details","Menu", new { id = item.Id })" class="btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                                                    <a href="@Url.Action("DelTrash","Menu", new { id = item.Id })" class="btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div><!--end-col-9-->
+                        </div><!--end-class-row-->
+
+
+
+
+
+
+
+
+
+
+                    </div> <!-- /.card-footer-->
+                </div><!-- /.card -->
+            </section><!-- /.content -->
+        </div> <!-- /.content-wrapper -->
+    </div><!-- ./wrapper -->
+}
+

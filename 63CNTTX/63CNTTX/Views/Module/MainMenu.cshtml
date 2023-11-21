@@ -1,0 +1,93 @@
+﻿@model IEnumerable<MyClass.Model.Menus>
+
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+        <a class="navbar-brand logo_h" href="index.html"><img src="img/logo.png" alt=""></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+                @*Trang chu*@
+                <li class="nav-item active"><a class="nav-link" href="https://localhost:44317">TRANG CHỦ</a></li>
+                @*Loai San pham*@
+                <li class="nav-item submenu dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">LOẠI SẢN PHẨM</a>
+                    <ul class="dropdown-menu">
+                        @*bat dau tu cho nay*@
+                        @foreach (var item in Model)
+                        {
+                            if (item.TypeMenu == "category")
+                            {
+                                <li class="nav-item active">
+                                    <a class="nav-link text-uppercase active" href="@item.Link">@item.Name</a>
+                                </li>
+                            }
+
+                        }
+                    </ul>
+                </li>
+                @*Nha cung cap*@
+                <li class="nav-item submenu dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">NHÀ CUNG CẤP</a>
+                    <ul class="dropdown-menu">
+                        @*bat dau tu cho nay*@
+                        @foreach (var item in Model)
+                        {
+                            if (item.TypeMenu == "supplier")
+                            {
+                                <li class="nav-item active">
+                                    <a class="nav-link text-uppercase active" href="@item.Link">@item.Name</a>
+                                </li>
+                            }
+
+                        }
+                    </ul>
+                </li>
+                @*San pham*@
+                <li class="nav-item submenu dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">SẢN PHẨM</a>
+                    <ul class="dropdown-menu">
+                        @*bat dau tu cho nay*@
+                        @foreach (var item in Model)
+                        {
+                            if (item.TypeMenu == "product")
+                            {
+                                <li class="nav-item active">
+                                    <a class="nav-link text-uppercase active" href="@item.Link">@item.Name</a>
+                                </li>
+                            }
+
+                        }
+                    </ul>
+                </li>
+
+                @*Menu tuy chon*@
+                @foreach (var item in Model)
+                {
+                    if (item.TypeMenu == "custom")
+                    {
+                        <li class="nav-item active">
+                            <a class="nav-link text-uppercase active" href="@item.Link">@item.Name</a>
+                        </li>
+                    }
+
+                }
+
+                @*Het meu chinh*@
+            </ul>
+
+            <ul class="nav-shop">
+                <li class="nav-item"><button><i class="ti-search"></i></button></li>
+                <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
+                <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
